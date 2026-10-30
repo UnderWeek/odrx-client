@@ -6,6 +6,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java-gradle
+      - name: Dummy google-services.json
+        run: |
+          cat > google-services.json <<'JSON'
+          {
+            "project_info": {"project_number": "1", "project_id": "dummy", "storage_bucket": "dummy.appspot.com"},
+            "client": [
+              {"client_info": {"mobilesdk_app_id": "1:1:android:1", "android_client_info": {"package_name": "ru.nsu.ccfit.zuev.osuplus.relax.debug"}}, "api_key": [{"current_key": "dummy"}]},
+              {"client_info": {"mobilesdk_app_id": "1:1:android:2", "android_client_info": {"package_name": "ru.nsu.ccfit.zuev.osuplus.relax"}}, "api_key": [{"current_key": "dummy"}]}
+            ],
+            "configuration_version": "1"
+          }
+          JSON
       - run: ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
